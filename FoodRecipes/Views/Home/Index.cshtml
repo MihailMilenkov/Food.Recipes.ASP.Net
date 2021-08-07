@@ -1,0 +1,48 @@
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] = "Welcome!";
+}
+
+@if (!Model.Recipes.Any())
+{
+    <div class="jumbotron">
+        <h1 class="display-4">Hello!</h1>
+        <p class="lead">There are currently no recipes.</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" asp-controller="Recipes" asp-action="Add" role="button">Add Recipe</a>
+        </p>
+    </div>
+}
+
+<div class="row">
+    @foreach (var recipe in Model.Recipes)
+    {
+        <div class="col-md-3">
+                <div class="card">
+                    <a asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id">
+                        <img class="card-img-top" src="@recipe.ImageUrl" alt="@recipe.Name">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.Name</h5>
+                        <p class="card-text">@recipe.CookingTime Minutes</p>
+                        <p class="card-text">Type: @recipe.Category</p>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
+
+<div class="mb-5"></div>
+
+<div class="jumbotron">
+    <div class="row">
+        <h2 class="col-md-6 text-center">
+            @Model.TotalRecipes Total Recipes
+        </h2>
+        <h2 class="col-md-6 text-center">
+            @Model.TotalUsers Total Users
+        </h2>
+    </div>
+</div>
