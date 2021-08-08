@@ -1,24 +1,18 @@
-﻿namespace FoodRecipes.Data.Models
+﻿namespace FoodRecipes.Models.Cooks
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants.CookConstants;
+    using static Data.DataConstants.CookConstants;
 
-    public class Cook
+    public class BecomeCookFormModel
     {
-        public int Id { get; init; }
-
         [Required]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; }
 
-        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
-        public string PhoneNumber { get; set; }
-
         [Required]
-        public string UserId { get; set; }
-
-        public IEnumerable<Recipe> Recipes { get; init; } = new List<Recipe>();
+        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
+        [Display(Name= "Phone Number")]
+        public string PhoneNumber { get; set; }
     }
 }

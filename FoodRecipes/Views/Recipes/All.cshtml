@@ -1,7 +1,7 @@
 ﻿@model AllRecipesQueryModel
 
 @{
-    ViewData["Title"] = "All Recipes";
+    ViewBag.Title = "All Recipes";
 }
 
 <form method="get">
@@ -10,7 +10,7 @@
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <select asp-for="Name" class="form-control">
-                    <option value="">All Recipes</option>
+                    <option value="">@ViewBag.Title</option>
 
                     @foreach (var name in Model.Names)
                     {
@@ -92,6 +92,11 @@
 </div>
 
 <div class="mb-4"></div>
+
+@if (!Model.Recipes.Any())
+{
+    <h2 class="text-center">No Recipes found!</h2>
+}
 
 <div class="row">
     @foreach (var recipe in Model.Recipes)

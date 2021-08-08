@@ -1,12 +1,13 @@
 ﻿namespace FoodRecipes.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
     using FoodRecipes.Models.Recipes;
     using FoodRecipes.Data;
     using FoodRecipes.Data.Models;
+    using FoodRecipes.Infrastructure;
 
     public class RecipesController : Controller
     {
@@ -74,14 +75,35 @@
         }
 
         // HTTPGet
-        public IActionResult Add() => View(new AddRecipeFormModel
+        [Authorize]
+        public IActionResult Add()
         {
-            Categories = this.GetRecipeCategories()
-        });
+            if (!this.UserIsCook())
+            {
+                return RedirectToAction(nameof(CooksController.Become), "Cooks");
+            }
+
+            return View(new AddRecipeFormModel
+            {
+                Categories = this.GetRecipeCategories()
+            });
+        }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddRecipeFormModel recipe)
         {
+            var cookId = this.data
+                .Cooks
+                .Where(c => c.UserId == this.User.GetId())
+                .Select(d => d.Id)
+                .FirstOrDefault();
+
+            if (cookId == 0)
+            {
+                return RedirectToAction(nameof(CooksController.Become), "Cooks");
+            }
+
             if (!this.data.Categories.Any(c => c.Id == recipe.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(recipe.CategoryId), "Category does not exists.");
@@ -101,7 +123,8 @@
                 Directions = recipe.Directions,
                 ImageUrl = recipe.ImageUrl,
                 CookingTime = recipe.CookingTime,
-                CategoryId = recipe.CategoryId
+                CategoryId = recipe.CategoryId,
+                CookId = cookId
             };
 
             this.data.Recipes.Add(recipeData);
@@ -110,6 +133,11 @@
 
             return RedirectToAction(nameof(All));
         }
+
+        private bool UserIsCook()
+            => this.data
+                .Cooks
+                .Any(c => c.UserId == this.User.GetId());
 
         private IEnumerable<RecipeCategoryViewModel> GetRecipeCategories()
             => this.data
