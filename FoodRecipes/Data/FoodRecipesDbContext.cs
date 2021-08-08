@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity;
     using FoodRecipes.Data.Models;
 
     public class FoodRecipesDbContext : IdentityDbContext
@@ -16,7 +17,7 @@
 
         public DbSet<Category> Categories { get; init; }
 
-        public DbSet<Category> Cooks { get; init; }
+        public DbSet<Cook> Cooks { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,19 +28,19 @@
                 .HasForeignKey(r => r.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //builder
-            //    .Entity<Recipe>()
-            //    .HasOne(r => r.Cook)
-            //    .WithMany(c => c.Recipes)
-            //    .HasForeignKey(r => r.CookId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            builder
+                .Entity<Recipe>()
+                .HasOne(r => r.Cook)
+                .WithMany(c => c.Recipes)
+                .HasForeignKey(r => r.CookId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            //builder
-            //    .Entity<Cook>()
-            //    .HasOne<User>()
-            //    .WithOne()
-            //    .HasForeignKey<Cook>(c => c.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            builder
+                .Entity<Cook>()
+                .HasOne<IdentityUser>()
+                .WithOne()
+                .HasForeignKey<Cook>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }

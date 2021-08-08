@@ -13,9 +13,12 @@
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
-        //[Required]
-        //public string UserId { get; set; }
+        [MaxLength(PhoneNumberMaxLength)]
+        public string PhoneNumber { get; set; }
 
-        //public IEnumerable<Recipe> Recipes { get; init; } = new List<Recipe>();
+        [Required]
+        public string UserId { get; set; }
+
+        public IEnumerable<Recipe> Recipes { get; init; } = new List<Recipe>();
     }
 }

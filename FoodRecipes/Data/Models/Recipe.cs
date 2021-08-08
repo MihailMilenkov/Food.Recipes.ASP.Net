@@ -31,8 +31,8 @@
         [Required]
         public Category Category { get; set; }
 
-        //public int CookId { get; set; }
+        public int CookId { get; init; }
 
-        //public Cook Cook { get; set; }
+        public Cook Cook { get; init; }
     }
 }

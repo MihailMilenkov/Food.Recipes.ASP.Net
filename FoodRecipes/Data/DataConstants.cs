@@ -14,6 +14,8 @@
         {
             public const int NameMinLength = 2;
             public const int NameMaxLength = 25;
+
+            public const int PhoneNumberMaxLength = 20;
         }
 
         public class RecipeConstants

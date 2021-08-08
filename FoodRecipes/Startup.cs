@@ -18,9 +18,10 @@ namespace FoodRecipes
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {// This method gets called by the runtime. Use this method to add services to the container.
-            services.AddDbContext<FoodRecipesDbContext>(options => options
-                .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+        {
+            services
+                .AddDbContext<FoodRecipesDbContext>(options => options
+                    .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
