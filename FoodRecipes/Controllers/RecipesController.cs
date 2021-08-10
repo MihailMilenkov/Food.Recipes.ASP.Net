@@ -16,6 +16,35 @@
         public RecipesController(FoodRecipesDbContext data)
             => this.data = data;
 
+        public IActionResult Details(int recepiId)
+        {
+            var recipe = this.data
+                .Recipes
+                .Where(r => r.Id == recepiId)
+                .FirstOrDefault();
+
+            if (recipe == null)
+            {
+                return View(new DetailsRecipeQueryModel
+                {
+                    Name = "invalid",
+                    CookingTime=0,
+                });
+            }
+
+            var recipeToShow = new DetailsRecipeQueryModel
+            {
+                Name = recipe.Name,
+                Ingredients = recipe.Ingredients,
+                Directions = recipe.Directions,
+                ImageUrl = recipe.ImageUrl,
+                Category = recipe.Category.Name,
+                CookingTime = recipe.CookingTime
+            };
+
+            return View(recipeToShow);
+        }
+
         // HTTPGet
         public IActionResult All([FromQuery] AllRecipesQueryModel query)
         {

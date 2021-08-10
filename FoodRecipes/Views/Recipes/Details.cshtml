@@ -1,0 +1,26 @@
+﻿@model DetailsRecipeQueryModel
+
+@{
+    ViewBag.Title = "Hungry??";
+}
+
+@{
+    if (Model.Name == "invalid")
+    {
+        <h2 class="text-center mt-5">Invalid Recipe!</h2>
+    }
+    else
+    {
+        <div class="card">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">@Model.CookingTime Minutes</p>
+                <p class="card-text">Type: @Model.Category</p>
+            </div>
+        </div>
+    }
+
+}
+
+<div class="mb-0"></div>

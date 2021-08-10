@@ -8,6 +8,8 @@
 
         public int TotalUsers { get; init; }
 
+        public int TotalCooks { get; init; }
+
         public List<RecipeIndexViewModel> Recipes { get; init; }
     }
 }
