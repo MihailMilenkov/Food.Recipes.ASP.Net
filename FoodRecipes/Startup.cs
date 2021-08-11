@@ -9,6 +9,7 @@ namespace FoodRecipes
     using Microsoft.Extensions.Hosting;
     using FoodRecipes.Data;
     using FoodRecipes.Infrastructure;
+    using FoodRecipes.Services.Statistics;
 
     public class Startup
     {
@@ -38,6 +39,8 @@ namespace FoodRecipes
                 .AddEntityFrameworkStores<FoodRecipesDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddTransient<IStatisticsService, StatisticsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

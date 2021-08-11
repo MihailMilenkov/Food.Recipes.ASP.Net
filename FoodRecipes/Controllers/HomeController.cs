@@ -6,20 +6,21 @@
     using FoodRecipes.Models;
     using FoodRecipes.Data;
     using FoodRecipes.Models.Home;
+    using FoodRecipes.Services.Statistics;
 
     public class HomeController : Controller
     {
+        private readonly IStatisticsService statistics;
         private readonly FoodRecipesDbContext data;
 
-        public HomeController(FoodRecipesDbContext data)
-            => this.data = data;
+        public HomeController(IStatisticsService statistics, FoodRecipesDbContext data)
+        {
+            this.statistics = statistics;
+            this.data = data;
+        }
 
         public IActionResult Index()
         {
-            var totalRecipes = this.data.Recipes.Count();
-            var totalUsers = this.data.Users.Count();
-            var totalCooks = this.data.Cooks.Count();
-
             var recipes = this.data
                 .Recipes
                 .OrderByDescending(r => r.Id)
@@ -34,11 +35,13 @@
                 .Take(4)
                 .ToList();
 
+            var totalStatistics = this.statistics.Total();
+
             return View(new IndexViewModel
             {
-                TotalRecipes = totalRecipes,
-                TotalUsers = totalUsers,
-                TotalCooks = totalCooks,
+                TotalRecipes = totalStatistics.TotalRecipes,
+                TotalUsers = totalStatistics.TotalUsers,
+                TotalCooks = totalStatistics.TotalCooks,
                 Recipes = recipes
             });
         }
