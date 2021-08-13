@@ -10,6 +10,7 @@ namespace FoodRecipes
     using FoodRecipes.Data;
     using FoodRecipes.Infrastructure;
     using FoodRecipes.Services.Statistics;
+    using FoodRecipes.Services.Recipes;
 
     public class Startup
     {
@@ -41,6 +42,7 @@ namespace FoodRecipes
             services.AddControllersWithViews();
 
             services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IRecipeService, RecipeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

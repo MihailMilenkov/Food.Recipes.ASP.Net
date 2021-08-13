@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using FoodRecipes.Services.Recipes;
 
     public class AllRecipesQueryModel
     {
@@ -22,6 +23,6 @@
 
         public IEnumerable<string> Names { get; set; }
 
-        public IEnumerable<RecipeListingViewModel> Recipes { get; set; }
+        public IEnumerable<RecipeServiceModel> Recipes { get; set; }
     }
 }

@@ -8,97 +8,34 @@
     using FoodRecipes.Data;
     using FoodRecipes.Data.Models;
     using FoodRecipes.Infrastructure;
+    using FoodRecipes.Services.Recipes;
 
     public class RecipesController : Controller
     {
+        private readonly IRecipeService recipes;
         private readonly FoodRecipesDbContext data;
 
-        public RecipesController(FoodRecipesDbContext data)
-            => this.data = data;
-
-        //public IActionResult Details(int recepiId) // Deprecated method
-        //{
-        //    var recipe = this.data
-        //        .Recipes
-        //        .Where(r => r.Id == recepiId)
-        //        .FirstOrDefault();
-
-        //    if (recipe == null)
-        //    {
-        //        return View(new RecipeDetalsServiceModel
-        //        {
-        //            Name = "invalid",
-        //            CookingTime = 0,
-        //        });
-        //    }
-
-        //    var recipeToShow = new RecipeDetalsServiceModel
-        //    {
-        //        Name = recipe.Name,
-        //        Ingredients = recipe.Ingredients,
-        //        Directions = recipe.Directions,
-        //        ImageUrl = recipe.ImageUrl,
-        //        Category = recipe.Category.Name,
-        //        CookingTime = recipe.CookingTime
-        //    };
-
-        //    return View(recipeToShow);
-        //}
+        public RecipesController(IRecipeService recipes, FoodRecipesDbContext data)
+        {
+            this.recipes = recipes;
+            this.data = data;
+        }
 
         // HTTPGet
         public IActionResult All([FromQuery] AllRecipesQueryModel query)
         {
-            var recipesQuery = this.data.Recipes.AsQueryable();
+            var queryResult = this.recipes.All(
+                query.Name,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllRecipesQueryModel.RecipesPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.Name))
-            {
-                recipesQuery = recipesQuery.
-                    Where(r => r.Name == query.Name);
-            }
+            var recipeNames = this.recipes.AllRecipesNames();
 
-
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                recipesQuery = recipesQuery.Where(r =>
-                    r.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                    r.Ingredients.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                    r.Category.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                    r.Directions.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            recipesQuery = query.Sorting switch
-            {
-                RecipeSorting.Name => recipesQuery.OrderBy(r => r.Name),
-                RecipeSorting.Category => recipesQuery.OrderBy(r => r.Category.Name),
-                RecipeSorting.CookingTime => recipesQuery.OrderBy(r => r.CookingTime),
-                RecipeSorting.DateCreated or _ => recipesQuery.OrderByDescending(r => r.Id)
-            };
-
-            var totalRecipes = recipesQuery.Count();
-
-            var recipes = recipesQuery
-                .Skip((query.CurrentPage - 1) * AllRecipesQueryModel.RecipesPerPage)
-                .Take(AllRecipesQueryModel.RecipesPerPage)
-                .Select(r => new RecipeListingViewModel
-                {
-                    Id = r.Id,
-                    Name = r.Name,
-                    CookingTime = r.CookingTime,
-                    Category = r.Category.Name,
-                    ImageUrl = r.ImageUrl,
-                })
-                .ToList();
-
-            var recipeNames = this.data
-                .Recipes
-                .Select(r => r.Name)
-                .Distinct()
-                .OrderBy(n => n)
-                .ToList();
-
-            query.TotalRecipes = totalRecipes;
             query.Names = recipeNames;
-            query.Recipes = recipes;
+            query.TotalRecipes = queryResult.TotalRecipes;
+            query.Recipes = queryResult.Recipes;
 
             return View(query);
         }

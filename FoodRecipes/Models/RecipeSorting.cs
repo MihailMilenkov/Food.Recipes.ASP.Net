@@ -1,4 +1,4 @@
-﻿namespace FoodRecipes.Models.Recipes
+﻿namespace FoodRecipes.Models
 {
     public enum RecipeSorting
     {

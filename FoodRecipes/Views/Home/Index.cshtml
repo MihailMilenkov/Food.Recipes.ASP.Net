@@ -20,32 +20,61 @@
     @foreach (var recipe in Model.Recipes)
     {
         <div class="col-md-3">
-                <div class="card">
-                    <a asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id">
-                        <img class="card-img-top" src="@recipe.ImageUrl" alt="@recipe.Name">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title">@recipe.Name</h5>
-                        <p class="card-text">@recipe.CookingTime Minutes</p>
-                        <p class="card-text">Type: @recipe.Category</p>
-                    </div>
+            <div class="card">
+                <a asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id">
+                    <img class="card-img-top" src="@recipe.ImageUrl" alt="@recipe.Name">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">@recipe.Name</h5>
+                    <p class="card-text">@recipe.CookingTime Minutes</p>
+                    <p class="card-text">Type: @recipe.Category</p>
                 </div>
             </div>
+        </div>
     }
 </div>
 
 <div class="mb-5"></div>
 
-<div class="jumbotron">
+@*<div class="jumbotron" id="statistics">
     <div class="row">
-        <h2 class="col-md-4 text-center">
-            @Model.TotalRecipes Total Recipes
-        </h2>
-        <h2 class="col-md-4 text-center">
-            @Model.TotalUsers Total Users
-        </h2>
-        <h2 class="col-md-4 text-center">
-            @Model.TotalCooks Total Cooks
-        </h2>
+        <h2 class="col-md-4 text-center" id="total-recipes"></h2>
+        <h2 class="col-md-4 text-center" id="total-users"></h2>
+        <h2 class="col-md-4 text-center" id="total-cooks"></h2>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12 text-center">
+        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $('#statistics-button').on('click', ev => {
+            $.get('/api/statistics', (data) => {
+                $('#total-recipes').text(data.totalRecipes + " Recipes");
+                $('#total-users').text(data.totalUsers + " Users");
+                $('#total-cooks').text(data.totalCooks + " Cooks");
+
+                $('#statistics').removeClass('d-none');
+                $('#statistics-button').hide();
+            });
+        }); 
+    </script>
+}*@
+
+<div class="jumbotron">
+        <div class="row">
+            <h3 class="col-md-4 text-center">
+                @Model.TotalRecipes Total Recipes
+            </h3>
+            <h3 class="col-md-4 text-center">
+                @Model.TotalUsers Total Users
+            </h3>
+            <h3 class="col-md-4 text-center">
+                @Model.TotalCooks Total Cooks
+            </h3>
+        </div>
+    </div>
