@@ -7,6 +7,7 @@ namespace FoodRecipes
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.AspNetCore.Mvc;
     using FoodRecipes.Data;
     using FoodRecipes.Infrastructure;
     using FoodRecipes.Services.Statistics;
@@ -39,7 +40,10 @@ namespace FoodRecipes
                 })
                 .AddEntityFrameworkStores<FoodRecipesDbContext>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IRecipeService, RecipeService>();
