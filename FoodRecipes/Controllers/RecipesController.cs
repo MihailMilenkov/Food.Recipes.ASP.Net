@@ -1,23 +1,28 @@
 ﻿namespace FoodRecipes.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using FoodRecipes.Models.Recipes;
+    using FoodRecipes.Services.Recipes;
     using FoodRecipes.Data;
     using FoodRecipes.Data.Models;
     using FoodRecipes.Infrastructure;
-    using FoodRecipes.Services.Recipes;
+    using FoodRecipes.Services.Cooks;
+    using FoodRecipes.Models.Recipes;
 
     public class RecipesController : Controller
     {
         private readonly IRecipeService recipes;
+        private readonly ICookService cooks;
         private readonly FoodRecipesDbContext data;
 
-        public RecipesController(IRecipeService recipes, FoodRecipesDbContext data)
+        public RecipesController(
+            IRecipeService recipes,
+            ICookService cooks,
+            FoodRecipesDbContext data)
         {
             this.recipes = recipes;
+            this.cooks = cooks;
             this.data = data;
         }
 
@@ -31,7 +36,7 @@
                 query.CurrentPage,
                 AllRecipesQueryModel.RecipesPerPage);
 
-            var recipeNames = this.recipes.AllRecipesNames();
+            var recipeNames = this.recipes.AllRecipeNames();
 
             query.Names = recipeNames;
             query.TotalRecipes = queryResult.TotalRecipes;
@@ -40,79 +45,131 @@
             return View(query);
         }
 
+        [Authorize]
+        public IActionResult MyRecipes()
+        {
+            var myRecieps = this.recipes.GetRecipesByUser(this.User.GetId());
+
+            return View(myRecieps);
+        }
+
         // HTTPGet
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.UserIsCook())
+            if (!this.cooks.IsCook(this.User.GetId()))
             {
                 return RedirectToAction(nameof(CooksController.Become), "Cooks");
             }
 
-            return View(new AddRecipeFormModel
+            return View(new RecipeFormModel
             {
-                Categories = this.GetRecipeCategories()
+                Categories = this.recipes.AllRecipeCategories()
             });
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddRecipeFormModel recipe)
+        public IActionResult Add(RecipeFormModel recipe)
         {
-            var cookId = this.data
-                .Cooks
-                .Where(c => c.UserId == this.User.GetId())
-                .Select(d => d.Id)
-                .FirstOrDefault();
+            var cookId = this.cooks.GetCookIdByUserId(this.User.GetId());
 
             if (cookId == 0)
             {
                 return RedirectToAction(nameof(CooksController.Become), "Cooks");
             }
 
-            if (!this.data.Categories.Any(c => c.Id == recipe.CategoryId))
+            if (!this.recipes.CategoryExists(recipe.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(recipe.CategoryId), "Category does not exists.");
             }
 
             if (!ModelState.IsValid)
             {
-                recipe.Categories = this.GetRecipeCategories();
+                recipe.Categories = this.recipes.AllRecipeCategories();
 
                 return View(recipe);
             }
 
-            var recipeData = new Recipe
+            this.recipes.Create(
+                recipe.Name,
+                recipe.Ingredients,
+                recipe.Directions,
+                recipe.ImageUrl,
+                recipe.CookingTime,
+                recipe.CategoryId,
+                cookId);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var userId = this.User.GetId();
+
+            if (!this.cooks.IsCook(userId))
             {
-                Name = recipe.Name,
+                return RedirectToAction(nameof(CooksController.Become), "Cooks");
+            }
+
+            var recipe = this.recipes.Details(id);
+
+            if (recipe.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
+            return View(new RecipeFormModel
+            {
+                Name=recipe.Name,
                 Ingredients = recipe.Ingredients,
                 Directions = recipe.Directions,
                 ImageUrl = recipe.ImageUrl,
                 CookingTime = recipe.CookingTime,
                 CategoryId = recipe.CategoryId,
-                CookId = cookId
-            };
+                Categories = this.recipes.AllRecipeCategories()
+            });
+        }
 
-            this.data.Recipes.Add(recipeData);
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int recipeId, RecipeFormModel recipe)
+        {
+            var cookId = this.cooks.GetCookIdByUserId(this.User.GetId());
 
-            this.data.SaveChanges();
+            if (cookId == 0)
+            {
+                return RedirectToAction(nameof(CooksController.Become), "Cooks");
+            }
+
+            if (!this.recipes.CategoryExists(recipe.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(recipe.CategoryId), "Category does not exists.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                recipe.Categories = this.recipes.AllRecipeCategories();
+
+                return View(recipe);
+            }
+
+            if (!this.recipes.RecipeIsFromCook(recipeId, cookId))
+            {
+                return BadRequest();
+            }
+
+            this.recipes.Edit(
+                recipeId,
+                recipe.Name,
+                recipe.Ingredients,
+                recipe.Directions,
+                recipe.ImageUrl,
+                recipe.CookingTime,
+                recipe.CategoryId);
 
             return RedirectToAction(nameof(All));
         }
-
-        private bool UserIsCook()
-            => this.data
-                .Cooks
-                .Any(c => c.UserId == this.User.GetId());
-
-        private IEnumerable<RecipeCategoryViewModel> GetRecipeCategories()
-            => this.data
-                .Categories
-                .Select(c => new RecipeCategoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-            .ToList();
     }
 }

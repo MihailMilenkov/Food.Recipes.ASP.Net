@@ -1,6 +1,6 @@
 using System;
 
-namespace FoodRecipes.Models
+namespace FoodRecipes.Services
 {
     public class ErrorViewModel
     {

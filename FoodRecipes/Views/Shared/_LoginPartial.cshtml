@@ -1,13 +1,28 @@
 ﻿@using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject ICookService Cooks
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-controller="Cooks" asp-action="Become">Become Cook</a>
-        </li>
+        var userId = User.GetId();
+        var userIsCook = Cooks.IsCook(userId);
+
+        if (userIsCook)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="MyRecipes">My Recipes</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Cooks" asp-action="Become">Become Cook</a>
+            </li>
+        }
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
         </li>

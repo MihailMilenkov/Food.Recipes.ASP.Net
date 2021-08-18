@@ -98,23 +98,6 @@
     <h2 class="text-center">No Recipes found!</h2>
 }
 
-<div class="row">
-    @foreach (var recipe in Model.Recipes)
-    {
-        <div class="col-md-3">
-            <div class="card">
-                <a asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id">
-                    <img class="card-img-top" src="@recipe.ImageUrl" alt="@recipe.Name">
-                </a>
-                <div class="card-body">
-                    <h5 class="card-title">@recipe.Name</h5>
-                    <p class="card-text">@recipe.CookingTime Minutes</p>
-                    <p class="card-text">Type: @recipe.Category</p>
-                </div>
-            </div>
-        </div>
+<partial name="_RecipesPartial" model="@Model.Recipes" />
 
-        <div class="mb-3"></div>
-    }
-</div>
 <div class="mb-0"></div>

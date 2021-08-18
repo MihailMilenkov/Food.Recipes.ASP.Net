@@ -1,0 +1,13 @@
+﻿@model IEnumerable<RecipeServiceModel>
+
+@{
+    ViewBag.Title = "My Recipes";
+    ViewBag.AllowRecipeEdit = true;
+}
+
+@if (!Model.Any())
+{
+    <h2 class="text-center">You do not have any recipes!</h2>
+}
+
+<partial name="_RecipesPartial" model="@Model" />

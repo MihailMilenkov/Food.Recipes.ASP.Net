@@ -12,6 +12,7 @@ namespace FoodRecipes
     using FoodRecipes.Infrastructure;
     using FoodRecipes.Services.Statistics;
     using FoodRecipes.Services.Recipes;
+    using FoodRecipes.Services.Cooks;
 
     public class Startup
     {
@@ -46,6 +47,7 @@ namespace FoodRecipes
             });
 
             services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<ICookService, CookService>();
             services.AddTransient<IRecipeService, RecipeService>();
         }
 

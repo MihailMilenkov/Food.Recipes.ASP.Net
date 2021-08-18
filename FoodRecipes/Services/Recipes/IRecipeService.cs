@@ -11,6 +11,34 @@
             int currentPage,
             int recipesPerPage);
 
-        IEnumerable<string> AllRecipesNames();
+        RecipeDetailsServiceModel Details(int recipeId);
+
+        int Create(
+            string name,
+            string ingredients,
+            string directions,
+            string imageUrl,
+            int cookingTime,
+            int categoryId,
+            int cookId);
+
+        bool Edit(
+            int recipeId,
+            string name,
+            string ingredients,
+            string directions,
+            string imageUrl,
+            int cookingTime,
+            int categoryId);
+
+        IEnumerable<RecipeServiceModel> GetRecipesByUser(string userId);
+
+        bool RecipeIsFromCook(int recipeId, int cookId);
+
+        IEnumerable<string> AllRecipeNames();
+
+        IEnumerable<RecipeCategoryServiceModel> AllRecipeCategories();
+
+        bool CategoryExists(int categoryId);
     }
 }

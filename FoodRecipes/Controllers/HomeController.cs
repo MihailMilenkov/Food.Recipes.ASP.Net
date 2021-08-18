@@ -3,7 +3,7 @@
     using System.Diagnostics;
     using System.Linq;
     using Microsoft.AspNetCore.Mvc;
-    using FoodRecipes.Models;
+    using FoodRecipes.Services;
     using FoodRecipes.Data;
     using FoodRecipes.Models.Home;
     using FoodRecipes.Services.Statistics;

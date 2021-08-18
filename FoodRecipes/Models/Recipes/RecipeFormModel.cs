@@ -2,10 +2,11 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using FoodRecipes.Services.Recipes;
 
     using static Data.DataConstants.RecipeConstants;
 
-    public class AddRecipeFormModel
+    public class RecipeFormModel
     {
         [Required]
         [StringLength(
@@ -40,6 +41,6 @@
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 
-        public IEnumerable<RecipeCategoryViewModel> Categories { get; set; }
+        public IEnumerable<RecipeCategoryServiceModel> Categories { get; set; }
     }
 }
