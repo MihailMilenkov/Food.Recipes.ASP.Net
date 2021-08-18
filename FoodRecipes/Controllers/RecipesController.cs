@@ -134,7 +134,7 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Edit(int recipeId, RecipeFormModel recipe)
+        public IActionResult Edit(int id, RecipeFormModel recipe)
         {
             var cookId = this.cooks.GetCookIdByUserId(this.User.GetId());
 
@@ -155,13 +155,13 @@
                 return View(recipe);
             }
 
-            if (!this.recipes.RecipeIsFromCook(recipeId, cookId))
+            if (!this.recipes.RecipeIsFromCook(id, cookId))
             {
                 return BadRequest();
             }
 
             this.recipes.Edit(
-                recipeId,
+                id,
                 recipe.Name,
                 recipe.Ingredients,
                 recipe.Directions,
