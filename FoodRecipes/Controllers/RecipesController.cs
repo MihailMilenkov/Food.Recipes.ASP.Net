@@ -172,11 +172,6 @@
         {
             var recipe = this.recipes.Details(id);
 
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
             return View(recipe);
         }
     }

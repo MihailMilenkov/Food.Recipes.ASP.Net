@@ -1,22 +1,29 @@
-﻿@model RecipeDetalsServiceModel
+﻿@model RecipeDetailsServiceModel
 
 @{
     ViewBag.Title = "Details";
 }
 
 @{
-    if (Model.Name == "invalid")
+    if (Model == null)
     {
         <h2 class="text-center mt-5">Invalid Recipe!</h2>
     }
     else
     {
-        <div class="card">
-            <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name">
+        <div class="card col-sm-12 offset-lg-3 col-lg-6 offset-xl-3 col-xl-6">
+            <img class="card-img-top align-self-center" src="@Model.ImageUrl" alt="@Model.Name">
             <div class="card-body">
                 <h5 class="card-title">@Model.Name</h5>
                 <p class="card-text">@Model.CookingTime Minutes</p>
-                <p class="card-text">Type: @Model.Category</p>
+                <p class="card-text">Type: @Model.CategoryName</p>
+                <p class="card-text">Ingredients: @Model.Ingredients</p>
+                <p class="card-text">Directions: @Model.Directions</p>
+                @if (User.IsAdmin())
+                {
+                    <a asp-controller="Recipes" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-controller="Recipes" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                }
             </div>
         </div>
     }
