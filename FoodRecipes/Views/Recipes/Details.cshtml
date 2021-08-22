@@ -11,19 +11,29 @@
     }
     else
     {
-        <div class="card col-sm-12 offset-lg-3 col-lg-6 offset-xl-3 col-xl-6">
-            <img class="card-img-top align-self-center" src="@Model.ImageUrl" alt="@Model.Name">
-            <div class="card-body">
-                <h5 class="card-title">@Model.Name</h5>
-                <p class="card-text">@Model.CookingTime Minutes</p>
-                <p class="card-text">Type: @Model.CategoryName</p>
-                <p class="card-text">Ingredients: @Model.Ingredients</p>
-                <p class="card-text">Directions: @Model.Directions</p>
-                @if (User.IsAdmin())
-                {
-                    <a asp-controller="Recipes" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                    <a asp-controller="Recipes" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-                }
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 offset-3">
+                    <img src="@Model.ImageUrl" alt="project-image" class="rounded">
+
+                    <div class="project-info-box mt-4">
+                        <div class="project-info-box">
+                            <p><b>@Model.Name</b></p>
+                            <p class="mb-3"><b>Cooking time:</b> @Model.CookingTime minutes</p>
+                            <p><b>Category:</b> @Model.CategoryName</p>
+
+                            <div class="project-info-box mt-3">
+                                <h5>Ingredients</h5>
+                                <p class="mb-0">@Model.Ingredients</p>
+                            </div>
+                            <div class="project-info-box mt-3">
+                                <h5>Directions</h5>
+                                <p class="mb-0">@Model.Directions</p>
+                            </div>
+                        </div>
+                    </div><!-- / project-info-box -->
+                </div><!-- / column -->
             </div>
         </div>
     }

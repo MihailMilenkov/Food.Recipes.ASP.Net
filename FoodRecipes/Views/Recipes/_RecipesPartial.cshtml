@@ -12,7 +12,7 @@
                     <h5 class="card-title">@recipe.Name</h5>
                     <p class="card-text">@recipe.CookingTime Minutes</p>
                     <p class="card-text">Type: @recipe.CategoryName</p>
-                    <a class="btn btn-primary" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id">Details</a>
+                    <a class="btn btn-primary" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id">View Recipe</a>
                     @if (ViewBag.AllowRecipeEdit == true || User.IsAdmin())
                     {
                         <a asp-controller="Recipes" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-warning">Edit</a>
