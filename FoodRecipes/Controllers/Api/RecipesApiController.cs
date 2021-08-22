@@ -16,23 +16,24 @@
             => this.recipes = recipes;
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{recipeId}")]
         public IActionResult GetDetails(int recipeId) // WIP
         {
-            throw new NotImplementedException();
-            //var recipe = GetRecipe(recipeId);
+            throw new System.NotImplementedException();
 
-            //if (recipe == null)
-            //{
-            //    return NotFound();
-            //}
+            var recipe = GetRecipe(recipeId);
 
-            //return Ok(recipe); // WIP, this method cant get parameters, id is always 0
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(recipe);
         }
 
-        public ActionResult<Recipe> GetRecipe(int id) // WIP
+        public ActionResult<Recipe> GetRecipe(int recipeId) // WIP
         {
-            //return this.data.Recipes.Find(id); // problems with ids in GetDetails
+            var recipe = this.recipes.Details(recipeId);
 
             throw new NotImplementedException();
         }

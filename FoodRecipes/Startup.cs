@@ -2,7 +2,6 @@ namespace FoodRecipes
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +12,8 @@ namespace FoodRecipes
     using FoodRecipes.Services.Statistics;
     using FoodRecipes.Services.Recipes;
     using FoodRecipes.Services.Cooks;
+    using FoodRecipes.Data.Models;
+    using Microsoft.AspNetCore.Identity;
 
     public class Startup
     {
@@ -30,15 +31,15 @@ namespace FoodRecipes
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequiredLength = 3;
-
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<FoodRecipesDbContext>();
 
             services.AddControllersWithViews(options =>

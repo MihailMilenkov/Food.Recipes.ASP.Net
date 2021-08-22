@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace FoodRecipes.Data.Migrations
+﻿namespace FoodRecipes.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class RecipeCategoryUserCookTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

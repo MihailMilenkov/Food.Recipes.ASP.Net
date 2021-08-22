@@ -2,10 +2,9 @@
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.AspNetCore.Identity;
     using FoodRecipes.Data.Models;
 
-    public class FoodRecipesDbContext : IdentityDbContext
+    public class FoodRecipesDbContext : IdentityDbContext<User>
     {
         public FoodRecipesDbContext(DbContextOptions<FoodRecipesDbContext> options)
             : base(options)
@@ -37,7 +36,7 @@
 
             builder
                 .Entity<Cook>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Cook>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

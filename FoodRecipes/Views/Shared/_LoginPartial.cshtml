@@ -1,7 +1,8 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using FoodRecipes.Data.Models
+@using Microsoft.AspNetCore.Identity
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject ICookService Cooks
 
 <ul class="navbar-nav">
@@ -9,14 +10,15 @@
     {
         var userId = User.GetId();
         var userIsCook = Cooks.IsCook(userId);
+        var userIsAdmin = User.IsAdmin();
 
-        if (userIsCook)
+        if (userIsCook && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Recipes" asp-action="MyRecipes">My Recipes</a>
             </li>
         }
-        else
+        else if (!userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Cooks" asp-action="Become">Become Cook</a>

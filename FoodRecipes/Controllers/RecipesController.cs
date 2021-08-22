@@ -1,11 +1,8 @@
 ﻿namespace FoodRecipes.Controllers
 {
-    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using FoodRecipes.Services.Recipes;
-    using FoodRecipes.Data;
-    using FoodRecipes.Data.Models;
     using FoodRecipes.Infrastructure;
     using FoodRecipes.Services.Cooks;
     using FoodRecipes.Models.Recipes;
@@ -14,16 +11,13 @@
     {
         private readonly IRecipeService recipes;
         private readonly ICookService cooks;
-        private readonly FoodRecipesDbContext data;
 
         public RecipesController(
             IRecipeService recipes,
-            ICookService cooks,
-            FoodRecipesDbContext data)
+            ICookService cooks)
         {
             this.recipes = recipes;
             this.cooks = cooks;
-            this.data = data;
         }
 
         // HTTPGet
@@ -108,14 +102,14 @@
         {
             var userId = this.User.GetId();
 
-            if (!this.cooks.IsCook(userId))
+            if (!this.cooks.IsCook(userId) && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(CooksController.Become), "Cooks");
             }
 
             var recipe = this.recipes.Details(id);
 
-            if (recipe.UserId != userId)
+            if (recipe.UserId != userId && !User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -138,7 +132,7 @@
         {
             var cookId = this.cooks.GetCookIdByUserId(this.User.GetId());
 
-            if (cookId == 0)
+            if (cookId == 0 && !User.IsAdmin())
             {
                 return RedirectToAction(nameof(CooksController.Become), "Cooks");
             }
@@ -155,7 +149,7 @@
                 return View(recipe);
             }
 
-            if (!this.recipes.RecipeIsFromCook(id, cookId))
+            if (!this.recipes.RecipeIsFromCook(id, cookId) && !User.IsAdmin())
             {
                 return BadRequest();
             }
@@ -170,6 +164,20 @@
                 recipe.CategoryId);
 
             return RedirectToAction(nameof(All));
+        }
+
+       
+        [Route("{id}")]
+        public IActionResult Details(int id)
+        {
+            var recipe = this.recipes.Details(id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            return View(recipe);
         }
     }
 }
