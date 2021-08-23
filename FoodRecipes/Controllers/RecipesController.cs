@@ -47,7 +47,6 @@
             return View(myRecieps);
         }
 
-        // HTTPGet
         [Authorize]
         public IActionResult Add()
         {

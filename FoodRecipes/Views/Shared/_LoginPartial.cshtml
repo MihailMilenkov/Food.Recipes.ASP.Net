@@ -4,12 +4,14 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @inject ICookService Cooks
+@inject ISellerService Sellers
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         var userId = User.GetId();
         var userIsCook = Cooks.IsCook(userId);
+        var userIsSeller = Sellers.IsSeller(userId);
         var userIsAdmin = User.IsAdmin();
 
         if (userIsCook && !userIsAdmin)
@@ -22,6 +24,19 @@
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Cooks" asp-action="Become">Become Cook</a>
+            </li>
+        }
+
+        if (userIsSeller && !userIsAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Ingredients" asp-action="MyIngredients">My Ingredients</a>
+            </li>
+        }
+        else if (!userIsAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Sellers" asp-action="Become">Become Seller</a>
             </li>
         }
 

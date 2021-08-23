@@ -1,0 +1,26 @@
+﻿@model IEnumerable<IngredientServiceModel>
+
+<div class="row">
+    @foreach (var ingredient in Model)
+    {
+        <div class="col-md-3">
+            <div class="card">
+                <a asp-controller="Ingredients" asp-action="Details" asp-route-id="@ingredient.Id">
+                    <img class="card-img-top" src="@ingredient.ImageUrl" alt="@ingredient.Name">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">@ingredient.Name</h5>
+                    <p class="card-text">Type: @ingredient.CategoryName</p>
+                    <a class="btn btn-primary" asp-controller="Ingredients" asp-action="Details" asp-route-id="@ingredient.Id">View More</a>
+                    @if (ViewBag.AllowIngredientEdit == true || User.IsAdmin())
+                    {
+                        <a asp-controller="Ingredients" asp-action="Edit" asp-route-id="@ingredient.Id" class="btn btn-warning">Edit</a>
+                        <a asp-controller="Ingredients" asp-action="Delete" asp-route-id="@ingredient.Id" class="btn btn-danger">Delete</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3"></div>
+    }
+</div>

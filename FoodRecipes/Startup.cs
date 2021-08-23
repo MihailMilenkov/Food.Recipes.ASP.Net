@@ -7,13 +7,15 @@ namespace FoodRecipes
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
     using FoodRecipes.Data;
     using FoodRecipes.Infrastructure;
     using FoodRecipes.Services.Statistics;
     using FoodRecipes.Services.Recipes;
     using FoodRecipes.Services.Cooks;
     using FoodRecipes.Data.Models;
-    using Microsoft.AspNetCore.Identity;
+    using FoodRecipes.Services.Sellers;
+    using FoodRecipes.Services.Ingredients;
 
     public class Startup
     {
@@ -49,7 +51,9 @@ namespace FoodRecipes
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<ICookService, CookService>();
+            services.AddTransient<ISellerService, SellerService>();
             services.AddTransient<IRecipeService, RecipeService>();
+            services.AddTransient<IIngredientService, IngredientService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

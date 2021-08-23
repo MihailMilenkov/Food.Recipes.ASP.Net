@@ -29,7 +29,7 @@
                     <p class="card-text">@recipe.CookingTime Minutes</p>
                     <p class="card-text">Type: @recipe.Category</p>
                 </div>
-                <a class="btn btn-primary" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id">View Recipe</a>
+                <a class="btn btn-primary" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.Id/ingredients">View Recipe</a>
             </div>
         </div>
     }

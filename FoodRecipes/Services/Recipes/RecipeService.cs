@@ -153,35 +153,6 @@
                 .OrderBy(n => n)
                 .ToList();
 
-        //public IActionResult Details(int recepiId) // WIP
-        //{
-        //    var recipe = this.data
-        //        .Recipes
-        //        .Where(r => r.Id == recepiId)
-        //        .FirstOrDefault();
-
-        //    if (recipe == null)
-        //    {
-        //        return View(new RecipeDetalsServiceModel
-        //        {
-        //            Name = "invalid",
-        //            CookingTime = 0,
-        //        });
-        //    }
-
-        //    var recipeToShow = new RecipeDetalsServiceModel
-        //    {
-        //        Name = recipe.Name,
-        //        Ingredients = recipe.Ingredients,
-        //        Directions = recipe.Directions,
-        //        ImageUrl = recipe.ImageUrl,
-        //        Category = recipe.Category.Name,
-        //        CookingTime = recipe.CookingTime
-        //    };
-
-        //    return View(recipeToShow);
-        //}
-
         public IEnumerable<RecipeCategoryServiceModel> AllRecipeCategories()
             => this.data
                 .RecipeCategories
@@ -195,7 +166,7 @@
         public bool CategoryExists(int categoryId)
             => this.data
                 .RecipeCategories
-                .Any(c => c.Id == categoryId);
+                .Any(rc => rc.Id == categoryId);
 
         private static IEnumerable<RecipeServiceModel> GetRecipes(IQueryable<Recipe> recipeQuery)
             => recipeQuery

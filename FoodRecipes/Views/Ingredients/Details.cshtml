@@ -1,0 +1,31 @@
+﻿@model IngredientDetailsServiceModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@{
+    if (Model == null)
+    {
+        <h2 class="text-center mt-5">Invalid Ingredient!</h2>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 offset-3">
+                    <img src="@Model.ImageUrl" alt="project-image" class="rounded">
+
+                    <div class="project-info-box mt-4">
+                        <div class="project-info-box">
+                            <p><b>@Model.Name</b></p>
+                            <p><b>Category:</b> @Model.CategoryName</p>
+                        </div>
+                    </div><!-- / project-info-box -->
+                </div><!-- / column -->
+            </div>
+        </div>
+    }
+
+}
