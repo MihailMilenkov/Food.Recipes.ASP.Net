@@ -19,8 +19,6 @@
         [Route("{recipeId}")]
         public IActionResult GetDetails(int recipeId) // WIP
         {
-            throw new System.NotImplementedException();
-
             var recipe = GetRecipe(recipeId);
 
             if (recipe == null)

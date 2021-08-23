@@ -41,6 +41,29 @@
                 .HasForeignKey<Cook>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //builder
+            //    .Entity<Ingredient>()
+            //    .HasOne(r => r.Category)
+            //    .WithMany(c => c.Recipes)
+            //    .HasForeignKey(r => r.CategoryId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder
+            //    .Entity<Recipe>()
+            //    .HasOne(r => r.Cook)
+            //    .WithMany(c => c.Recipes)
+            //    .HasForeignKey(r => r.CookId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder
+            //    .Entity<Cook>()
+            //    .HasOne<User>()
+            //    .WithOne()
+            //    .HasForeignKey<Cook>(c => c.UserId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+
+
             base.OnModelCreating(builder);
         }
     }

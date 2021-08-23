@@ -38,5 +38,22 @@
         {
             public const int NameMaxLength = 25;
         }
+
+        public class SellerConstants
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 25;
+
+            public const int PhoneNumberMinLength = 5;
+            public const int PhoneNumberMaxLength = 20;
+        }
+        public class IngredientConstants
+        {
+            public const int NameMinLength = 2;
+            public const int NameMaxLength = 40;
+
+            public const int CountryOfOriginMinLength = 5;
+            public const int CountryOfOriginMaxLength = 20;
+        }
     }
 }
