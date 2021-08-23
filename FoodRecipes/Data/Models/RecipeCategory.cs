@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants.CategoryConstants;
+    using static DataConstants.RecipeCategoryConstants;
 
-    public class Category
+    public class RecipeCategory
     {
         public int Id { get; init; }
 

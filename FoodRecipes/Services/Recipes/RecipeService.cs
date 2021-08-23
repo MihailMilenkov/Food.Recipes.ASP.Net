@@ -184,7 +184,7 @@
 
         public IEnumerable<RecipeCategoryServiceModel> AllRecipeCategories()
             => this.data
-                .Categories
+                .RecipeCategories
                 .Select(c => new RecipeCategoryServiceModel
                 {
                     Id = c.Id,
@@ -194,7 +194,7 @@
 
         public bool CategoryExists(int categoryId)
             => this.data
-                .Categories
+                .RecipeCategories
                 .Any(c => c.Id == categoryId);
 
         private static IEnumerable<RecipeServiceModel> GetRecipes(IQueryable<Recipe> recipeQuery)

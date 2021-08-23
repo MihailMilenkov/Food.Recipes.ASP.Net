@@ -21,8 +21,8 @@
 
         public int CategoryId { get; set; }
 
-        //[Required]
-        //public Category Category { get; set; }
+        [Required]
+        public IngredientCategory Category { get; set; }
 
         public int SellerId { get; init; }
 

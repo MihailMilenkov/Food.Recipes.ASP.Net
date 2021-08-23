@@ -4,14 +4,16 @@ using FoodRecipes.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FoodRecipes.Data.Migrations
 {
     [DbContext(typeof(FoodRecipesDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210823110457_CategoryBecomesRecipeCategory")]
+    partial class CategoryBecomesRecipeCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,53 +47,6 @@ namespace FoodRecipes.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Cooks");
-                });
-
-            modelBuilder.Entity("FoodRecipes.Data.Models.Ingredient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("SellerId");
-
-                    b.ToTable("Ingredients");
-                });
-
-            modelBuilder.Entity("FoodRecipes.Data.Models.IngredientCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IngredientCategories");
                 });
 
             modelBuilder.Entity("FoodRecipes.Data.Models.Recipe", b =>
@@ -149,35 +104,7 @@ namespace FoodRecipes.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RecipeCategories");
-                });
-
-            modelBuilder.Entity("FoodRecipes.Data.Models.Seller", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Sellers");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("FoodRecipes.Data.Models.User", b =>
@@ -393,25 +320,6 @@ namespace FoodRecipes.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FoodRecipes.Data.Models.Ingredient", b =>
-                {
-                    b.HasOne("FoodRecipes.Data.Models.IngredientCategory", "Category")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("FoodRecipes.Data.Models.Seller", "Seller")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Seller");
-                });
-
             modelBuilder.Entity("FoodRecipes.Data.Models.Recipe", b =>
                 {
                     b.HasOne("FoodRecipes.Data.Models.RecipeCategory", "Category")
@@ -429,15 +337,6 @@ namespace FoodRecipes.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Cook");
-                });
-
-            modelBuilder.Entity("FoodRecipes.Data.Models.Seller", b =>
-                {
-                    b.HasOne("FoodRecipes.Data.Models.User", null)
-                        .WithOne()
-                        .HasForeignKey("FoodRecipes.Data.Models.Seller", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -496,19 +395,9 @@ namespace FoodRecipes.Data.Migrations
                     b.Navigation("Recipes");
                 });
 
-            modelBuilder.Entity("FoodRecipes.Data.Models.IngredientCategory", b =>
-                {
-                    b.Navigation("Ingredients");
-                });
-
             modelBuilder.Entity("FoodRecipes.Data.Models.RecipeCategory", b =>
                 {
                     b.Navigation("Recipes");
-                });
-
-            modelBuilder.Entity("FoodRecipes.Data.Models.Seller", b =>
-                {
-                    b.Navigation("Ingredients");
                 });
 #pragma warning restore 612, 618
         }

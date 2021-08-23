@@ -29,7 +29,7 @@
         public int CategoryId { get; set; }
 
         [Required]
-        public Category Category { get; set; }
+        public RecipeCategory Category { get; set; }
 
         public int CookId { get; init; }
 

@@ -22,7 +22,8 @@
 
             MigrateDatabase(services);
 
-            SeedCategories(services);
+            SeedRecipeCategories(services);
+            SeedIngredientCategories(services);
             SeedAdministrator(services);
 
             return app;
@@ -35,28 +36,54 @@
             data.Database.Migrate();
         }
 
-        private static void SeedCategories(IServiceProvider services)
+        private static void SeedRecipeCategories(IServiceProvider services)
         {
             var data = services.GetRequiredService<FoodRecipesDbContext>();
 
-            if (data.Categories.Any())
+            if (data.RecipeCategories.Any())
             {
                 return;
             }
 
-            data.Categories.AddRange(new[]
+            data.RecipeCategories.AddRange(new[]
             {
-                new Category {Name = "Soup" },
-                new Category {Name = "Salad" },
-                new Category {Name = "Appetizer" },
-                new Category {Name = "Side Dish" },
-                new Category {Name = "Main Dish" },
-                new Category {Name = "Breakfast" },
-                new Category {Name = "Baked Goods" },
-                new Category {Name = "Dessert" },
-                new Category {Name = "Baby Food" },
-                new Category {Name = "Pasta" },
-                new Category {Name = "Canned Food" }
+                new RecipeCategory {Name = "Soup" },
+                new RecipeCategory {Name = "Salad" },
+                new RecipeCategory {Name = "Appetizer" },
+                new RecipeCategory {Name = "Side Dish" },
+                new RecipeCategory {Name = "Main Dish" },
+                new RecipeCategory {Name = "Breakfast" },
+                new RecipeCategory {Name = "Baked Goods" },
+                new RecipeCategory {Name = "Dessert" },
+                new RecipeCategory {Name = "Baby Food" },
+                new RecipeCategory {Name = "Pasta" },
+                new RecipeCategory {Name = "Canned Food" }
+            });
+
+            data.SaveChanges();
+        }
+
+        private static void SeedIngredientCategories(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<FoodRecipesDbContext>();
+
+            if (data.IngredientCategories.Any())
+            {
+                return;
+            }
+
+            data.IngredientCategories.AddRange(new[]
+            {
+                new IngredientCategory {Name = "Eggs, milk and milk products" },
+                new IngredientCategory {Name = "Fats and oils" },
+                new IngredientCategory {Name = "Fruits" },
+                new IngredientCategory {Name = "Vegetables" },
+                new IngredientCategory {Name = "Grain, nuts and baking products" },
+                new IngredientCategory {Name = "Herbs and spices" },
+                new IngredientCategory {Name = "Meat" },
+                new IngredientCategory {Name = "Fish" },
+                new IngredientCategory {Name = "Pasta, rice and pulses" },
+                new IngredientCategory {Name = "Other" },
             });
 
             data.SaveChanges();
@@ -95,8 +122,6 @@
                 })
                 .GetAwaiter()
                 .GetResult();
-
-
         }
     }
 }

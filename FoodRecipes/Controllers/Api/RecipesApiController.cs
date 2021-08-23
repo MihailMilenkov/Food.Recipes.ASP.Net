@@ -28,10 +28,10 @@
 
             return Ok(recipe);
         }
-
+        
         public ActionResult<Recipe> GetRecipe(int recipeId) // WIP
         {
-            var recipe = this.recipes.Details(recipeId);
+            //var recipe = this.recipes.Details(recipeId);
 
             throw new NotImplementedException();
         }

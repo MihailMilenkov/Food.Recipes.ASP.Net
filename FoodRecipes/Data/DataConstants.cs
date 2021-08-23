@@ -34,7 +34,12 @@
             public const int MaxCookingTime = 600;
         }
 
-        public class CategoryConstants
+        public class RecipeCategoryConstants
+        {
+            public const int NameMaxLength = 25;
+        }
+
+        public class IngredientCategoryConstants
         {
             public const int NameMaxLength = 25;
         }
