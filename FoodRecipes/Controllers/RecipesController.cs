@@ -165,7 +165,7 @@
             return RedirectToAction(nameof(All));
         }
 
-       
+
         [Route("{id}")]
         public IActionResult Details(int id)
         {
