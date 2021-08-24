@@ -1,4 +1,4 @@
-﻿namespace FoodRecipes.Services.Recipes
+﻿namespace FoodRecipes.Services.Recipes.Models
 {
     public class RecipeDetailsServiceModel : RecipeServiceModel
     {

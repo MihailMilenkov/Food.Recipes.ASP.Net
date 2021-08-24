@@ -44,6 +44,8 @@ namespace FoodRecipes
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<FoodRecipesDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
@@ -79,10 +81,7 @@ namespace FoodRecipes
                .UseAuthorization()
                .UseEndpoints(endpoints =>
                {
-                   endpoints.MapControllerRoute(
-                       name: "Areas",
-                       pattern: "/{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
+                   endpoints.MapDefaultAreaRoute();
                    endpoints.MapDefaultControllerRoute();
                    endpoints.MapRazorPages();
                });

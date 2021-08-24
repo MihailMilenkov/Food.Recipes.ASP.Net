@@ -1,7 +1,6 @@
-﻿namespace FoodRecipes.Services.Recipes
+﻿namespace FoodRecipes.Services.Recipes.Models
 {
     using System.Collections.Generic;
-    using FoodRecipes.Models.Api.Recipes;
 
     public class RecipeQueryServiceModel
     {

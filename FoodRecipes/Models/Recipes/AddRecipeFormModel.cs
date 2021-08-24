@@ -2,8 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using FoodRecipes.Services.Recipes;
-
+    using FoodRecipes.Services.Recipes.Models;
     using static Data.DataConstants.RecipeConstants;
 
     public class AddRecipeFormModel

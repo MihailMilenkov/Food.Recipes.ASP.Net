@@ -1,5 +1,6 @@
 ﻿namespace FoodRecipes.Controllers
 {
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using FoodRecipes.Services.Recipes;
@@ -11,13 +12,16 @@
     {
         private readonly IRecipeService recipes;
         private readonly ICookService cooks;
+        private readonly IMapper mapper;
 
         public RecipesController(
             IRecipeService recipes,
-            ICookService cooks)
+            ICookService cooks,
+            IMapper mapper)
         {
             this.recipes = recipes;
             this.cooks = cooks;
+            this.mapper = mapper;
         }
 
         // HTTPGet
@@ -113,16 +117,11 @@
                 return Unauthorized();
             }
 
-            return View(new RecipeFormModel
-            {
-                Name=recipe.Name,
-                Ingredients = recipe.Ingredients,
-                Directions = recipe.Directions,
-                ImageUrl = recipe.ImageUrl,
-                CookingTime = recipe.CookingTime,
-                CategoryId = recipe.CategoryId,
-                Categories = this.recipes.AllRecipeCategories()
-            });
+            var recipeForm = this.mapper.Map<RecipeFormModel>(recipe);
+
+            recipeForm.Categories = this.recipes.AllRecipeCategories();
+
+            return View(recipeForm);
         }
 
         [HttpPost]

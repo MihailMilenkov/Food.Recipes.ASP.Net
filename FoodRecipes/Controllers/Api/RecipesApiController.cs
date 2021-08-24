@@ -1,10 +1,9 @@
 ﻿namespace FoodRecipes.Controllers.Api
 {
-    using System;
     using Microsoft.AspNetCore.Mvc;
-    using FoodRecipes.Data.Models;
     using FoodRecipes.Models.Api.Recipes;
     using FoodRecipes.Services.Recipes;
+    using FoodRecipes.Services.Recipes.Models;
 
     [ApiController]
     [Route("api/recipes")]
@@ -15,26 +14,26 @@
         public RecipesApiController(IRecipeService recipes)
             => this.recipes = recipes;
 
-        [HttpGet]
-        [Route("{recipeId}")]
-        public IActionResult GetDetails(int recipeId) // WIP
-        {
-            var recipe = GetRecipe(recipeId);
+        //[HttpGet]
+        //[Route("{recipeId}")]
+        //public IActionResult GetDetails(int recipeId) // WIP
+        //{
+        //    var recipe = GetRecipe(recipeId);
 
-            if (recipe == null)
-            {
-                return NotFound();
-            }
+        //    if (recipe == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(recipe);
-        }
+        //    return Ok(recipe);
+        //}
         
-        public ActionResult<Recipe> GetRecipe(int recipeId) // WIP
-        {
-            //var recipe = this.recipes.Details(recipeId);
+        //public ActionResult<Recipe> GetRecipe(int recipeId) // WIP
+        //{
+        //    //var recipe = this.recipes.Details(recipeId);
 
-            throw new NotImplementedException();
-        }
+        //    throw new NotImplementedException();
+        //}
 
         [HttpGet]
         public RecipeQueryServiceModel All([FromQuery] AllRecipesApiRequestModel query)

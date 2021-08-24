@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using FoodRecipes.Models;
+    using FoodRecipes.Services.Recipes.Models;
 
     public interface IRecipeService
     {

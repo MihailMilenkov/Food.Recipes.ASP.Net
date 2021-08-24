@@ -2,6 +2,8 @@
 {
     using System.Diagnostics;
     using System.Linq;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Microsoft.AspNetCore.Mvc;
     using FoodRecipes.Services;
     using FoodRecipes.Data;
@@ -12,11 +14,13 @@
     {
         private readonly IStatisticsService statistics;
         private readonly FoodRecipesDbContext data;
+        private readonly IConfigurationProvider mapper;
 
-        public HomeController(IStatisticsService statistics, FoodRecipesDbContext data)
+        public HomeController(IStatisticsService statistics, FoodRecipesDbContext data, IMapper mapper)
         {
             this.statistics = statistics;
             this.data = data;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public IActionResult Index()
@@ -24,14 +28,7 @@
             var recipes = this.data
                 .Recipes
                 .OrderByDescending(r => r.Id)
-                .Select(r => new RecipeIndexViewModel
-                {
-                    Id = r.Id,
-                    Name = r.Name,
-                    CookingTime = r.CookingTime,
-                    ImageUrl = r.ImageUrl,
-                    Category = r.Category.Name
-                })
+                .ProjectTo<RecipeIndexViewModel>(this.mapper)
                 .Take(4)
                 .ToList();
 

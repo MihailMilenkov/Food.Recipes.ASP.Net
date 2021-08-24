@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using FoodRecipes.Models;
-    using FoodRecipes.Services.Recipes;
+    using FoodRecipes.Services.Recipes.Models;
 
     public class AllRecipesQueryModel
     {

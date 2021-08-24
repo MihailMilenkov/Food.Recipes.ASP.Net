@@ -2,16 +2,23 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using FoodRecipes.Data;
     using FoodRecipes.Data.Models;
     using FoodRecipes.Models;
+    using FoodRecipes.Services.Recipes.Models;
 
     public class RecipeService : IRecipeService
     {
         private readonly FoodRecipesDbContext data;
+        private readonly IConfigurationProvider mapper;
 
-        public RecipeService(FoodRecipesDbContext data)
-            => this.data = data;
+        public RecipeService(FoodRecipesDbContext data, IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper.ConfigurationProvider;
+        }
 
         public RecipeQueryServiceModel All(
             string name,
@@ -65,19 +72,7 @@
             => this.data
                 .Recipes
                 .Where(r => r.Id == id)
-                .Select(r => new RecipeDetailsServiceModel
-                {
-                    Id = r.Id,
-                    Name = r.Name,
-                    CookingTime = r.CookingTime,
-                    CategoryName = r.Category.Name,
-                    ImageUrl = r.ImageUrl,
-                    Ingredients = r.Ingredients,
-                    Directions = r.Directions,
-                    UserId = r.Cook.UserId,
-                    CookId = r.CookId,
-                    CookName = r.Cook.Name
-                })
+                .ProjectTo<RecipeDetailsServiceModel>(this.mapper)
                 .FirstOrDefault();
 
         public int Create(
