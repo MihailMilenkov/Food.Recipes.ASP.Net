@@ -2,12 +2,9 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    [Area(AdminConstants.AreaName)]
-    public class RecipesController : Controller
+    public class RecipesController : AdminController
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() 
+            => View();
     }
 }

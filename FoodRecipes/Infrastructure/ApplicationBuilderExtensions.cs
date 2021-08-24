@@ -10,7 +10,7 @@
     using FoodRecipes.Data;
     using FoodRecipes.Data.Models;
 
-    using static WebConstants;
+    using static FoodRecipes.Areas.Admin.AdminConstants;
 
     public static class ApplicationBuilderExtensions
     {
