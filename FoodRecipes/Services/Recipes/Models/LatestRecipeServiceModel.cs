@@ -1,6 +1,6 @@
-﻿namespace FoodRecipes.Models.Home
+﻿namespace FoodRecipes.Services.Recipes.Models
 {
-    public class RecipeIndexViewModel
+    public class LatestRecipeServiceModel
     {
         public int Id { get; init; }
 

@@ -10,7 +10,7 @@
     {
         public MappingProfile()
         {
-            this.CreateMap<Recipe, RecipeIndexViewModel>();
+            this.CreateMap<Recipe, LatestRecipeServiceModel>();
 
             this.CreateMap<RecipeDetailsServiceModel, RecipeFormModel>();
 

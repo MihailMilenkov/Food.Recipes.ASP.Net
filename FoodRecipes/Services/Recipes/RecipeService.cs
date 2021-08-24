@@ -68,6 +68,14 @@
             };
         }
 
+        public IEnumerable<LatestRecipeServiceModel> Latest()
+            => this.data
+                .Recipes
+                .OrderByDescending(r => r.Id)
+                .ProjectTo<LatestRecipeServiceModel>(this.mapper)
+                .Take(3)
+                .ToList();
+
         public RecipeDetailsServiceModel Details(int id)
             => this.data
                 .Recipes

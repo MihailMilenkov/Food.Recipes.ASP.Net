@@ -1,12 +1,12 @@
 ﻿namespace FoodRecipes.Controllers
 {
-    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using FoodRecipes.Services.Recipes;
     using FoodRecipes.Infrastructure;
     using FoodRecipes.Services.Cooks;
     using FoodRecipes.Models.Recipes;
+    using AutoMapper;
 
     public class RecipesController : Controller
     {

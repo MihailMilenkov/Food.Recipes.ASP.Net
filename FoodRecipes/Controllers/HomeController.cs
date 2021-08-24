@@ -1,49 +1,49 @@
 ﻿namespace FoodRecipes.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.AspNetCore.Mvc;
-    using FoodRecipes.Services;
-    using FoodRecipes.Data;
-    using FoodRecipes.Models.Home;
-    using FoodRecipes.Services.Statistics;
+    using Microsoft.Extensions.Caching.Memory;
+    using FoodRecipes.Services.Recipes;
+    using FoodRecipes.Services.Recipes.Models;
 
     public class HomeController : Controller
     {
-        private readonly IStatisticsService statistics;
-        private readonly FoodRecipesDbContext data;
-        private readonly IConfigurationProvider mapper;
+        private readonly IRecipeService recipes;
+        private readonly IMemoryCache cache;
 
-        public HomeController(IStatisticsService statistics, FoodRecipesDbContext data, IMapper mapper)
+        public HomeController(IRecipeService recipes, IMemoryCache cache)
         {
-            this.statistics = statistics;
-            this.data = data;
-            this.mapper = mapper.ConfigurationProvider;
+            this.recipes = recipes;
+            this.cache = cache;
         }
 
         public IActionResult Index()
         {
-            var recipes = this.data
-                .Recipes
-                .OrderByDescending(r => r.Id)
-                .ProjectTo<RecipeIndexViewModel>(this.mapper)
-                .Take(4)
-                .ToList();
+            const string latestRecipesCacheKey = "LatestRecipesCacheKey";
 
-            var totalStatistics = this.statistics.Total();
+            var latestRecipes = this.cache.Get<List<LatestRecipeServiceModel>>(latestRecipesCacheKey);
 
-            return View(new IndexViewModel
+            if (latestRecipes == null)
             {
-                TotalRecipes = totalStatistics.TotalRecipes,
-                TotalUsers = totalStatistics.TotalUsers,
-                TotalCooks = totalStatistics.TotalCooks,
-                Recipes = recipes
-            });
+                latestRecipes = this.recipes
+                   .Latest()
+                   .ToList();
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+
+                this.cache.Set(latestRecipesCacheKey, latestRecipes, cacheOptions);
+            }
+
+            return View(latestRecipes);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Error => View();
+
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

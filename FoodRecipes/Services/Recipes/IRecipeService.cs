@@ -12,6 +12,8 @@
             int currentPage,
             int recipesPerPage);
 
+        IEnumerable<LatestRecipeServiceModel> Latest();
+
         RecipeDetailsServiceModel Details(int recipeId);
 
         int Create(

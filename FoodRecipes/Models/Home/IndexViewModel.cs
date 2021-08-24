@@ -1,6 +1,7 @@
 ﻿namespace FoodRecipes.Models.Home
 {
     using System.Collections.Generic;
+    using FoodRecipes.Services.Recipes.Models;
 
     public class IndexViewModel
     {
@@ -10,6 +11,6 @@
 
         public int TotalCooks { get; init; }
 
-        public List<RecipeIndexViewModel> Recipes { get; init; }
+        public IList<LatestRecipeServiceModel> Recipes { get; init; }
     }
 }
