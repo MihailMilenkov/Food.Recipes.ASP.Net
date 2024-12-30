@@ -1,2 +1,2 @@
 # Food.Recipes.ASP.Net
-A food recipes system, created using ASP.NET
+A food recipes app, created using ASP.NET
