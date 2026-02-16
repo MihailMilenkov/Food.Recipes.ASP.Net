@@ -9,7 +9,6 @@ Authentication and authorization
 Working with relational databases
 MVC architecture
 Good practices when working with .NET
-Cashing and pagination
 
 Features:
 Registration and login through ASP.NET Core Identity
@@ -20,14 +19,11 @@ Deleting the user's own recipes and, for admins, deleting any recipe
 Recipe categories
 Recipe search
 Detailed page for each recipe(Card)
+Cashing and pagination
 
 Tech Stack
 Backend: ASP.NET Core & C#, Entity Framework Core
 
-Authentication: ASP.NET Core Identity
-
 Database: Microsoft SQL Server
 
 Frontend: Razor Views, HTML / CSS, Bootstrap
-
-Architecture: MVC Pattern
