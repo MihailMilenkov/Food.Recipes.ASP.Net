@@ -21,7 +21,7 @@ Recipe categories
 Recipe search
 Detailed page for each recipe(Card)
 
-🛠 Tech Stack
+Tech Stack
 Backend: ASP.NET Core & C#, Entity Framework Core
 
 Authentication: ASP.NET Core Identity
