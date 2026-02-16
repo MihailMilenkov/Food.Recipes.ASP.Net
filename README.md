@@ -11,16 +11,15 @@ MVC architecture
 Good practices when working with .NET
 Cashing and pagination
 
-🚀 Features:
-
-🔐 Registration and login through ASP.NET Core Identity
-👤 Roles (User / Admin)
-📝 Adding recipes
-✏️ Editing the user's own recipes and, for admins, editing any recipe
-❌ Deleting the user's own recipes and, for admins, deleting any recipe
-📋 Recipe categories
-🔍 Recipe search
-📄 Detailed page for each recipe(Card)
+Features:
+Registration and login through ASP.NET Core Identity
+Roles (User / Admin)
+Adding recipes
+Editing the user's own recipes and, for admins, editing any recipe
+Deleting the user's own recipes and, for admins, deleting any recipe
+Recipe categories
+Recipe search
+Detailed page for each recipe(Card)
 
 🛠 Tech Stack
 Backend: ASP.NET Core & C#, Entity Framework Core
