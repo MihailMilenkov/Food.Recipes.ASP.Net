@@ -72,5 +72,12 @@
 
             base.OnModelCreating(builder);
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=.\\MSSQLSERVER11;Database=FoodRecipes;Integrated Security=True;");
+
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

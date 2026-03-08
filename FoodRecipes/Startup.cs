@@ -30,6 +30,11 @@ namespace FoodRecipes
                 .AddDbContext<FoodRecipesDbContext>(options => options
                     .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
+            //services
+            //    .AddDbContext<FoodRecipesDbContext>(options => options
+            //        .UseSqlServer(this.Configuration
+            //            .GetConnectionString("Server=.\\MSSQLSERVER11;Database=Andreys;Integrated Security=True;")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services

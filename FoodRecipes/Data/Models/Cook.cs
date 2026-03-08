@@ -1,4 +1,4 @@
-﻿namespace FoodRecipes.Data.Models
+﻿ namespace FoodRecipes.Data.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
