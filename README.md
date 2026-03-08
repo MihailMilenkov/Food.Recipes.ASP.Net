@@ -27,3 +27,5 @@ Backend: ASP.NET Core & C#, Entity Framework Core
 Database: Microsoft SQL Server
 
 Frontend: Razor Views, HTML / CSS, Bootstrap
+
+<img width="1679" height="1223" alt="image" src="https://github.com/user-attachments/assets/044f56b3-e463-439c-87a7-993383eb3018" />
