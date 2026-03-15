@@ -24,7 +24,7 @@ Cashing and pagination
 Tech Stack
 Backend: ASP.NET Core & C#, Entity Framework Core
 
-Database: Microsoft SQL Server
+Database: Microsoft SQL Server 
 
 Frontend: Razor Views, HTML / CSS, Bootstrap
 
